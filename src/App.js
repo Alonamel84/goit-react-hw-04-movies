@@ -2,34 +2,46 @@ import './App.css';
 import React from 'react';
 import MoviesPage from './components/MoviesPage';
 import MovieDetailsPage from './components/MovieDetailsPage';
-// import { Route } from 'react-router-dom';
-import { getTrandyMovies } from './api.js';
+import { Route, NavLink } from 'react-router-dom';
+import { getTrendyMovies, getMoviesDetails, searchMovie } from './api.js';
 import { useEffect, useState } from 'react';
 import HomePage from './components/HomePage';
+// import { Route } from 'react-router';
+
+getMoviesDetails(566525)
+  .then(movie => {
+    console.log(movie);
+  })
+  .catch(error => console.log('errorGetMoviesDetails'));
+
 function App() {
-  const [media_type, setMediaType] = useState('movie');
   const [time_window, setTimeWindow] = useState('day');
   const [results, setResults] = useState([]);
   const [query, setQuery] = useState('movie');
   const [page, setPage] = useState(1);
-  useEffect(() => {
-    getTrandyMovies().then(results => {
-      setResults(results);
-      console.log(results);
-    });
-  }, [time_window]);
+  // useEffect(() => {
+  //   getTrendyMovies().then(results => {
+  //     setResults(results);
+  //     console.log(results);
+  //   });
+  // }, [time_window]);
 
-  const handleSubmit = query => {
-    setQuery(query);
-    setPage(1);
-    setResults([]);
-  };
   return (
     <div className="App">
-      {/* <Nav /> */}
-      <HomePage getMoviesDetails={getTrandyMovies} results={results} />
-      <MoviesPage onSubmt={handleSubmit} />
-      <MovieDetailsPage results={results} />
+      <NavLink to="/" activenavlink="NavLink--active">
+        Home
+      </NavLink>
+      <NavLink to="/movies">Movies</NavLink>
+
+      <Route exact path="/">
+        <HomePage getTrendyMovies={getTrendyMovies} results={results} />
+      </Route>
+      <Route exact path="/movies">
+        <MoviesPage />
+      </Route>
+      <Route path="/movie/:movieId">
+        <MovieDetailsPage />
+      </Route>
     </div>
   );
 }
