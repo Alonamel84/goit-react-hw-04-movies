@@ -1,38 +1,27 @@
 import { useEffect, useState } from "react";
-import { Route, Switch, useRouteMatch } from "react-router";
-import { Link, history, useHistory } from 'react-router-dom';
+import { Route, Switch, useLocation, useRouteMatch } from "react-router";
+import { Link, useHistory } from 'react-router-dom';
 import { getMoviesDetails } from '../../api'
 import Cast from '../Cast'
-import { FilmList } from "../FilmList";
 import Reviews from '../Reviews'
 
-// import {  Link } from 'react-router-dom';
 const MovieDetailsPage = () => {
-    const match = useRouteMatch()
     const [movie, setMovie] = useState(null);
-      const [locationToMoviePage, setLocationToMoviePage] = useState("/movies");
+    const match = useRouteMatch()
     const movieId = match.params.movieId
     useEffect(() => {
         getMoviesDetails(movieId)
     .then(movie => {
       setMovie(movie)
-    console.log(movie);
   })
   .catch(error => console.log('errorGetMoviesDetails'));
     }, [])
 
+    const  {pathname, state, search } = useLocation();
     const history = useHistory();
-    console.log(history)
-    const handleGoBack = () => history.push('/');
-//    useEffect(() => {
-//     try {
-//       const { movie, from: FilmList } = history.state;
-//       setMovie(movie);
-//       setLocationToMoviePage(FilmList);
-//     } catch (e) {
-//       history.push("/not-found");
-//     }
-//   }, []);
+    const handleGoBack = () => history.push(
+        state.from.pathname !== '/' ? `${state.from}?query=${search.substr(1)}` : '/');
+        
     return (
          movie ? (
             <>
@@ -47,8 +36,16 @@ const MovieDetailsPage = () => {
             
                 <div>
                 <h4>Additional Information</h4>
-                 <Link to={`/movie/${movieId}/cast`}>Casts</Link>
-                <Link to={`/movie/${movieId}/reviews`}>Reviews</Link>
+                    <Link to={{
+                        pathname: `/movie/${movieId}/cast`,
+                        state: { from: state.from },
+                        search: search
+                 }}>Casts</Link>
+                <Link to={{
+                        pathname: `/movie/${movieId}/reviews`,
+                        state: { from: state.from },
+                    search: search
+                    }}>Reviews</Link>
 
             </div>
             <Switch>

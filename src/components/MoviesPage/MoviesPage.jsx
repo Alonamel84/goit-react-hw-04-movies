@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link,useLocation} from 'react-router-dom';
 import { searchMovie } from '../../api';
 const MoviesPage = () => {
      const [inputText, setInputText] = useState('');
@@ -9,16 +9,16 @@ const MoviesPage = () => {
     const handleSubmit = (e, query) => {
         e.preventDefault();
         setQuery(query)
-        // if (inputText === '') return alert('Please insert your query for search');
-        // handleSubmit()
+        if (inputText === '') return alert('Please insert your query for search');
     setInputText("");
     };
+    const location = useLocation();
     useEffect(() => {
-         console.log('useefect!!!', query)
+    location.search !== '' && setQuery(location.search.replace(/^\?[a-z]*=/gi, ''))
+    }, [])
+    useEffect(() => {   
         query !== '' && searchMovie(query).then(({ results }) => setSearchFilm(results));
     }, [query]);
-    console.log(searchFilm)
-
     return (
         <>
                 <header className="Searchbar">
@@ -39,8 +39,12 @@ const MoviesPage = () => {
                 </form>
             </header>
             {searchFilm.map((item) => (
-                <li>{item.title}
-                <Link to={`/movie/${item.id}`}></Link>                
+                <li>
+                    <Link to={{
+                        pathname: `/movie/${item.id}`,
+                        state: { from: '/movies' },
+                    search: query,
+                    }}>{item.title}</Link>
                 </li>))}
         </>
         

@@ -1,7 +1,7 @@
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { useEffect, useState } from "react";
 import { Route, useRouteMatch } from "react-router";
-import { getCasts, getReviews } from '../../api'
+import {  getReviews } from '../../api'
 const Reviews = () => {
     const match = useRouteMatch()
     const [review, setReview] = useState([]);
@@ -32,7 +32,7 @@ const Reviews = () => {
                 ))}
                     </ul>
                 </>
-                : <p> No results</p>
+                : <p> There are no reviews for this movie</p>
             }
             </>
     )

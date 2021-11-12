@@ -1,14 +1,22 @@
-import { Link } from 'react-router-dom';
-import s from './HomePage/HomePage.module.css'
+import { Link , useLocation} from 'react-router-dom';
+import s from '../components/FilmList.module.css'
+import PropTypes from 'prop-types';
 export const FilmList = ({ films }) => {
-    // const MoviesPage = () => (
-        //   const history = useHistory();
-        //   const { url } = useRouteMatch();
+    const location = useLocation();
     return(
-        <ul>
+        <ul className={ s.filmList}>
             {films.map(item => (
-                <li className={s.homePageItem}><Link to={`/movie/${item.id}`}>{item.title}</Link></li>
+                <li key={ item.id} className={s.homePageItem}>
+                <Link to={{
+                        pathname: `/movie/${item.id}`,
+                        state: { from: location }
+                    }}>
+                     <img src={`https://image.tmdb.org/t/p/w200${item.poster_path}`} alt="" />
+                    </Link></li>
             ))}
         </ul>)
         // )
 }
+FilmList.propTypes = {
+  films: PropTypes.array,
+};
