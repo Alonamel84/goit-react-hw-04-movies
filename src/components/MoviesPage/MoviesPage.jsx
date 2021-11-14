@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link,useLocation} from 'react-router-dom';
 import { searchMovie } from '../../api';
+import s from '../MoviesPage/MoviePage.module.css'
 const MoviesPage = () => {
      const [inputText, setInputText] = useState('');
     const [query, setQuery] = useState('');
@@ -21,14 +22,14 @@ const MoviesPage = () => {
     }, [query]);
     return (
         <>
-                <header className="Searchbar">
-                <form className="SearchForm" onSubmit={(e) => handleSubmit(e, inputText)}>
+            <header className={s.Searchbar}>
+                <form className={s.SearchForm} onSubmit={(e) => handleSubmit(e, inputText)}>
               
-                         <button type="submit" className="SearchForm-button" >
-                    <span className="SearchForm-button-label">Search</span>
+                    <button type="submit" className={s.SearchForm_button} >
+                        <span className={s.SearchForm_button_label}>Search</span>
                 </button>
-                        <input
-                            className="SearchForm-input"
+                    <input
+                        className={s.SearchForm_input}
                             type="text"
                             autoComplete="off"
                             autoFocus
@@ -39,12 +40,12 @@ const MoviesPage = () => {
                 </form>
             </header>
             {searchFilm.map((item) => (
-                <li>
+                <li className={ s.searchList}>
                     <Link to={{
                         pathname: `/movie/${item.id}`,
                         state: { from: '/movies' },
-                    search: query,
-                    }}>{item.title}</Link>
+                        search: query,
+                    }} className={ s.linksearchFilm}>{item.title}</Link>
                 </li>))}
         </>
         

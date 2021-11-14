@@ -4,6 +4,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { getMoviesDetails } from '../../api'
 import Cast from '../Cast'
 import Reviews from '../Reviews'
+import s from '../MovieDetailsPage/MovieDetailPage.module.css'
 
 const MovieDetailsPage = () => {
     const [movie, setMovie] = useState(null);
@@ -24,13 +25,13 @@ const MovieDetailsPage = () => {
         
     return (
          movie ? (
-            <>
-            <h1>{ movie.original_title}</h1>
+            <div className={ s.container}>
+                <h1 className={ s.titleMovie}>{ movie.original_title}</h1>
             <h2>Overview</h2>
             <div>{movie.overview}</div>
+                <button onClick={handleGoBack} type="button" className={ s.buttonBack}> GoBack </button>
             <h3>Genres</h3>
-          <button onClick={handleGoBack} type="button"> GoBack </button>
-               <div>{movie.genres.map((item) =>  item.name +' ')}</div>
+                <ul className={ s.genres}>{movie.genres.map((item) => <li className={ s.listGenres}>{ item.name +' '}</li>)}</ul>
 
             <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt="" />
             
@@ -40,19 +41,19 @@ const MovieDetailsPage = () => {
                         pathname: `/movie/${movieId}/cast`,
                         state: { from: state.from },
                         search: search
-                 }}>Casts</Link>
+                    }} className={ s.addInfoBtn}>Casts</Link>
                 <Link to={{
                         pathname: `/movie/${movieId}/reviews`,
                         state: { from: state.from },
                     search: search
-                    }}>Reviews</Link>
+                    }} className={ s.addInfoBtn}>Reviews</Link>
 
             </div>
             <Switch>
                 <Route path="/movie/:movieId/reviews" component={Reviews} />
                 <Route path="/movie/:movieId/cast" component={Cast} />
             </Switch>
-                </>) :("")
+                </div>) :("")
         
             
     )
