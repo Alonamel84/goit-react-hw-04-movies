@@ -9,7 +9,7 @@ const Reviews = () => {
     useEffect(() => {
         getReviews(movieId)
     .then(review => {
-      setReview(review)
+        setReview( review.results)
     console.log(review);
   })
   .catch(error => console.log('errorGetMoviesDetails'));
@@ -19,10 +19,10 @@ const Reviews = () => {
         
         <>
         <h1>Reviews</h1>
-            {review.results?
+            {review.length>0 ?
                 <>
                 <ul>
-                    {review.results.map((item) => (
+                    {review.map((item) => (
                     <div>
                     <li key={item.id} >{item.results}
                                 <p> Author: {item.author}</p>
