@@ -2,9 +2,9 @@ import './App.css';
 import React from 'react';
 import MoviesPage from './components/MoviesPage';
 import MovieDetailsPage from './components/MovieDetailsPage';
-import { Route, NavLink, Redirect } from 'react-router-dom';
+import { Route, NavLink, Redirect, Switch } from 'react-router-dom';
 import { getTrendyMovies, searchMovie } from './api.js';
-import { useEffect, useState } from 'react';
+import { useEffect, useStateбSuspense, Suspense, useState, lazy } from 'react';
 import HomePage from './components/HomePage';
 
 function App() {
@@ -17,6 +17,13 @@ function App() {
       setResults(results);
     });
   }, [time_window]);
+  const HomePage = lazy(() => import('./components/HomePage' /* webpackChunkName: "home-page" */));
+  const MoviesPage = lazy(() =>
+    import('./components/MoviesPage' /* webpackChunkName: "movies-page" */),
+  );
+  const MovieDetailsPage = lazy(() =>
+    import('./components/MovieDetailsPage' /* webpackChunkName: "MovieDetails-page" */),
+  );
 
   return (
     <div className="App">
@@ -26,17 +33,20 @@ function App() {
       <NavLink to="/movies" className="nav">
         Movies
       </NavLink>
-
-      <Route exact path="/">
-        <HomePage getTrendyMovies={getTrendyMovies} results={results} />
-      </Route>
-      <Route exact path="/movies">
-        <MoviesPage />
-      </Route>
-      <Route path="/movie/:movieId">
-        <MovieDetailsPage />
-      </Route>
-      <Redirect to="/" />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Switch>
+          <Route exact path="/">
+            <HomePage getTrendyMovies={getTrendyMovies} results={results} />
+          </Route>
+          <Route exact path="/movies">
+            <MoviesPage />
+          </Route>
+          <Route path="/movie/:movieId">
+            <MovieDetailsPage />
+          </Route>
+          <Redirect to="/" />
+        </Switch>
+      </Suspense>
     </div>
   );
 }

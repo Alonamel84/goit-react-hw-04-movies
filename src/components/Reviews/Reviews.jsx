@@ -19,7 +19,7 @@ const Reviews = () => {
         
         <>
         <h1>Reviews</h1>
-            {review.length?
+            {review.results?
                 <>
                 <ul>
                     {review.results.map((item) => (
