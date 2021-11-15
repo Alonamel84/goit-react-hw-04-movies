@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Link,useLocation} from 'react-router-dom';
 import { searchMovie } from '../../api';
+
+import { FilmList } from '../../components/FilmList/FilmList';
 import s from '../MoviesPage/MoviePage.module.css'
-const MoviesPage = () => {
+const MoviesPage = ({ films}) => {
      const [inputText, setInputText] = useState('');
     const [query, setQuery] = useState('');
     const [searchFilm, setSearchFilm] = useState([]);
@@ -39,16 +41,26 @@ const MoviesPage = () => {
                         />
                 </form>
             </header>
+            <ul className={ s.filmListSearch}>
+            {/* <FilmList films={ searchFilm}/> */}
             {searchFilm.map((item) => (
-                <li className={ s.searchList}>
+                <li className={s.searchList}>
+                  
                     <Link to={{
                         pathname: `/movie/${item.id}`,
                         state: { from: '/movies' },
                         search: query,
-                    }} className={ s.linksearchFilm}>{item.title}</Link>
-                </li>))}
+                    }} className={ s.linksearchFilm}> 
+                  <img src={`https://image.tmdb.org/t/p/w200${item.poster_path}`} alt={ item.name} />
+                   { item.title}
+                    </Link>
+                   
+                </li>
+            ))}
+                </ul>
         </>
         
-    )
+            )
+
 }
 export default MoviesPage;

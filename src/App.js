@@ -1,42 +1,25 @@
 import './App.css';
 import React from 'react';
-import MoviesPage from './components/MoviesPage';
-import MovieDetailsPage from './components/MovieDetailsPage';
-import { Route, NavLink, Redirect, Switch } from 'react-router-dom';
+import { Route, Redirect, Switch } from 'react-router-dom';
 import { getTrendyMovies, searchMovie } from './api.js';
 import { useEffect, useStateбSuspense, Suspense, useState, lazy } from 'react';
-import HomePage from './components/HomePage';
+import Nav from './components/Nav';
 
+const HomePage = lazy(() => import('./Pages/HomePage' /* webpackChunkName: "home-page" */));
+const MoviesPage = lazy(() => import('./Pages/MoviesPage' /* webpackChunkName: "movies-page" */));
+const MovieDetailsPage = lazy(() =>
+  import('./Pages/MovieDetailsPage' /* webpackChunkName: "MovieDetails-page" */),
+);
 function App() {
-  const [time_window, setTimeWindow] = useState('day');
-  const [results, setResults] = useState([]);
   const [query, setQuery] = useState('movie');
   const [page, setPage] = useState(1);
-  useEffect(() => {
-    getTrendyMovies().then(results => {
-      setResults(results);
-    });
-  }, [time_window]);
-  const HomePage = lazy(() => import('./components/HomePage' /* webpackChunkName: "home-page" */));
-  const MoviesPage = lazy(() =>
-    import('./components/MoviesPage' /* webpackChunkName: "movies-page" */),
-  );
-  const MovieDetailsPage = lazy(() =>
-    import('./components/MovieDetailsPage' /* webpackChunkName: "MovieDetails-page" */),
-  );
-
   return (
     <div className="App">
-      <NavLink to="/" activenavlink="NavLink--active" className="nav">
-        Home
-      </NavLink>
-      <NavLink to="/movies" className="nav">
-        Movies
-      </NavLink>
+      <Nav />
       <Suspense fallback={<div>Loading...</div>}>
         <Switch>
           <Route exact path="/">
-            <HomePage getTrendyMovies={getTrendyMovies} results={results} />
+            <HomePage />
           </Route>
           <Route exact path="/movies">
             <MoviesPage />

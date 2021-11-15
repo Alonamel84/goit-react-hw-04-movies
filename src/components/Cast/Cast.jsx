@@ -9,7 +9,7 @@ const Cast = () => {
     useEffect(() => {
         getCasts(movieId)
     .then(cast => {
-      setCasts(cast)
+      setCasts(cast.cast)
     
   })
   .catch(error => console.log('errorGetMoviesDetails'));
@@ -21,10 +21,10 @@ const Cast = () => {
             {cast &&
                 <>
           <ul className={ s.castList}>
-                    {cast.cast.map((item) => (
+                    {cast.map((item) => (
                     <div>
                         <li key={item.id} className={s.actorProfile} > <p className={ s.actorName}>{item.name}</p>
-                          <img src={`https://image.tmdb.org/t/p/w200${item.profile_path}`} alt="" />
+                          <img src={`https://image.tmdb.org/t/p/w200${item.profile_path}`} alt='no photo found' />
                                 <p> Character: {item.character}</p>
                               <p> Popularity: { item.popularity}</p>
                             </li>

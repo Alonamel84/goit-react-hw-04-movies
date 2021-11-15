@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { Route, Switch, useLocation, useRouteMatch } from "react-router";
 import { Link, useHistory } from 'react-router-dom';
 import { getMoviesDetails } from '../../api'
-import Cast from '../Cast'
-import Reviews from '../Reviews'
+import Cast from '../../components/Cast'
+import Reviews from '../../components/Reviews'
 import s from '../MovieDetailsPage/MovieDetailPage.module.css'
 
 const MovieDetailsPage = () => {
@@ -39,12 +39,12 @@ const MovieDetailsPage = () => {
                 <h4>Additional Information</h4>
                     <Link to={{
                         pathname: `/movie/${movieId}/cast`,
-                        state: { from: state.from },
+                        state: { from: state?.from },
                         search: search
                     }} className={ s.addInfoBtn}>Casts</Link>
                 <Link to={{
                         pathname: `/movie/${movieId}/reviews`,
-                        state: { from: state.from },
+                        state: { from: state?.from },
                     search: search
                     }} className={ s.addInfoBtn}>Reviews</Link>
 

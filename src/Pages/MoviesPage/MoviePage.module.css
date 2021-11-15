@@ -79,6 +79,8 @@
 }
 .searchList {
   list-style: none;
+  width: 200px;
+  height: 400px;
 }
 .linksearchFilm {
   text-decoration: none;
@@ -89,4 +91,12 @@
 .searchList :hover,
 .searchList :focus {
   color: red;
+}
+
+.filmListSearch {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  list-style: none;
+  margin-left: 10px;
 }
