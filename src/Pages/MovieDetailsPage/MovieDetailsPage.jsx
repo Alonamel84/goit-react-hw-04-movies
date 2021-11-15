@@ -41,7 +41,7 @@ const MovieDetailsPage = () => {
                         pathname: `/movie/${movieId}/cast`,
                         state: { from: state?.from },
                         search: search
-                    }} className={ s.addInfoBtn}>Casts</Link>
+                    }} className={ s.addInfoBtn}>Cast</Link>
                 <Link to={{
                         pathname: `/movie/${movieId}/reviews`,
                         state: { from: state?.from },
