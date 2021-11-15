@@ -10,11 +10,11 @@ const Reviews = () => {
         getReviews(movieId)
     .then(review => {
         setReview( review.results)
-    console.log(review);
+  
   })
   .catch(error => console.log('errorGetMoviesDetails'));
     }, [])
-    console.log(review)
+   
     return (
         
         <>

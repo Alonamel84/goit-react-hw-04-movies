@@ -41,10 +41,9 @@ const MoviesPage = ({ films}) => {
                         />
                 </form>
             </header>
-            <ul className={ s.filmListSearch}>
-            {/* <FilmList films={ searchFilm}/> */}
+            <ul className={ s.filmListSearch} >
             {searchFilm.map((item) => (
-                <li className={s.searchList}>
+                <li className={s.searchList} key={ item.id}>
                   
                     <Link to={{
                         pathname: `/movie/${item.id}`,
