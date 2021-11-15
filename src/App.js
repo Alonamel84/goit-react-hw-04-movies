@@ -11,8 +11,6 @@ const MovieDetailsPage = lazy(() =>
   import('./Pages/MovieDetailsPage' /* webpackChunkName: "MovieDetails-page" */),
 );
 function App() {
-  const [query, setQuery] = useState('movie');
-  const [page, setPage] = useState(1);
   return (
     <div className="App">
       <Nav />
